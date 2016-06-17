@@ -1,0 +1,36 @@
+﻿@model ElectionApplication.Models.Election
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Election</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ElectionName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ElectionName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsEnded)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsEnded)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsSelected)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsSelected)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ElectionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

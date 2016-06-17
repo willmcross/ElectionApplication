@@ -1,0 +1,51 @@
+﻿@model ElectionApplication.ViewModels.ElectionViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Candidate</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CandidateName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CandidateName)
+            @Html.ValidationMessageFor(model => model.CandidateName)
+        </div>s
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ElectionName)
+        </div>
+        <div class="editor-field">
+
+            @Html.DropDownListFor(m => m.ElectionId , new SelectList(Model.ElectionList, "Value", "Text"), "Select an Election"))
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Party)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Party)
+            @Html.ValidationMessageFor(model => model.Party)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "~/")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,17 @@
+﻿@model ElectionApplication.ViewModels.CandidateViewModel
+
+<fieldset>
+    <legend>VoteTracker</legend>
+
+
+        <div>
+        @Html.DisplayFor(modelItem => Model.Votes)
+        </div>
+
+        <div>
+            @Html.DisplayFor(modelItem => Model.Leans)
+        </div>
+ 
+
+</fieldset>
+    

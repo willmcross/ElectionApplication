@@ -1,0 +1,118 @@
+﻿@model ElectionApplication.Models.Candidate
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Candidate</legend>
+
+        @Html.HiddenFor(model => model.CandidateId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CandidateName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CandidateName)
+            @Html.ValidationMessageFor(model => model.CandidateName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ElectionName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ElectionName)
+            @Html.ValidationMessageFor(model => model.ElectionName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ElectionId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ElectionId)
+            @Html.ValidationMessageFor(model => model.ElectionId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Party)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Party)
+            @Html.ValidationMessageFor(model => model.Party)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PartyId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PartyId)
+            @Html.ValidationMessageFor(model => model.PartyId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Votes)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Votes)
+            @Html.ValidationMessageFor(model => model.Votes)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LeanAmt)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LeanAmt)
+            @Html.ValidationMessageFor(model => model.LeanAmt)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PredictedVoteCount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PredictedVoteCount)
+            @Html.ValidationMessageFor(model => model.PredictedVoteCount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HasWon)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HasWon)
+            @Html.ValidationMessageFor(model => model.HasWon)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Platform)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Platform)
+            @Html.ValidationMessageFor(model => model.Platform)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsSelected)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsSelected)
+            @Html.ValidationMessageFor(model => model.IsSelected)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

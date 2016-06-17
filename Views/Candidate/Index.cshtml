@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ElectionApplication.ViewModels.CandidateViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CandidateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ElectionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Party)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Platform)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.HiddenFor(modelItem => item.CandidateId)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.ElectionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CandidateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ElectionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Party)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Platform)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CandidateId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CandidateId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CandidateId })
+            @Html.ActionLink("Delete", "CastVote", new { id = item.CandidateId })
+        </td>
+        <td>
+            @Html.Partial("_VoteTrackerPartial", item)
+        </td> 
+        <td>
+            <input type="button" title="Vote for me!" value="Vote" onclick="location.href='@Url.Action("CastVote", "Candidate", new { id = item.CandidateId, electionId = item.ElectionId })'" />
+            <input type="button" title="I'm thinkin' you'" value="Lean" onclick="location.href='@Url.Action("CastLean", "Candidate", new { id = item.CandidateId, electionId = item.ElectionId })'" />
+        </td>
+
+    </tr>
+}
+
+</table>
+

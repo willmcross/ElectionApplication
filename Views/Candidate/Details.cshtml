@@ -1,0 +1,92 @@
+﻿@model ElectionApplication.Models.Candidate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Candidate</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CandidateName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CandidateName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ElectionName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ElectionName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ElectionId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ElectionId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Party)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Party)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PartyId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PartyId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Votes)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Votes)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LeanAmt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LeanAmt)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PredictedVoteCount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PredictedVoteCount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.HasWon)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HasWon)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Platform)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Platform)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsSelected)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsSelected)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CandidateId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

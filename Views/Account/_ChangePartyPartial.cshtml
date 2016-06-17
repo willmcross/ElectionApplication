@@ -1,0 +1,22 @@
+﻿@model ElectionApplication.ViewModels.AccountViewModel
+
+<h3>Change Party</h3>
+
+@using (Html.BeginForm("ManageParty", "Account")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Change Party</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(model => model.PartyName)
+            </li>
+            <li>
+                @Html.EditorFor(model => model.PartyName)
+                @Html.ValidationMessageFor(model => model.PartyName)
+            </li>
+        </ol>
+        <input type="submit" value="Change Party" />
+    </fieldset>
+}
