@@ -18,72 +18,133 @@ namespace ElectionApplication.Controllers
         //
         // GET: /Candidate/
 
-        public ActionResult Index([Bind(Prefix="id")] int ElectionId, VoteTracker votetracker)
+        public ActionResult Index([Bind(Prefix = "id")] int ElectionId, VoteTracker votetracker)
         {
 
-           var CheckTimeLimit = db.Elections.All(l => l.ElectionId == ElectionId && l.TimeLimit < DateTime.Now);
+            var CheckTimeLimit = db.Elections
+                .Where(o => o.ElectionId == ElectionId)
+                .All(o => o.TimeLimit <= DateTime.Now);
 
-           if (CheckTimeLimit == true)
-           {
-
-
-               // assign userid and electionid for query
-               var voterId = WebSecurity.GetUserId(User.Identity.Name);
-               var electionId = ElectionId;
-
-               // cross reference entire VoteTracker db to see if there is a match
-               var querytracker = db.Votes.All(x => x.ElectionId == electionId && x.VoterId == voterId);
-
-               //If no match, create entry with voterId and ElectionId to prevent multiple votes- only ONE per each ElectionId / VoterId combo should be made!
-               if (querytracker.Equals(true))
-               {
-                   votetracker.VoterId = voterId;
-                   votetracker.ElectionId = electionId;
-                   db.Votes.Add(votetracker);
-                   db.SaveChanges();
-               }
-               //If match, procceed without 
+            if (CheckTimeLimit.Equals(false))
+            {
 
 
-               var model =
-                   (from c in db.Candidates
-                    join e in db.Elections on c.ElectionId equals ElectionId
-                    select new CandidateViewModel
-                    {
-                        //map data from query to viewmodel
-                        CandidateId = c.CandidateId,
-                        CandidateName = c.CandidateName,
-                        ElectionName = c.ElectionName,
-                        ElectionId = c.ElectionId,
-                        Party = c.Party,
-                        Platform = c.Platform,
-                        Votes = c.Votes
-                    }).Distinct();
-               return View(model);
-           }
-           else
-           {
-               return RedirectToAction("Results", "Candidate", new { id = ElectionId });
+                // assign userid and electionid for query
+                var voterId = WebSecurity.GetUserId(User.Identity.Name);
+                var electionId = ElectionId;
 
-           }
+                // cross reference entire VoteTracker db to see if there is a match
+                var querytracker = db.Votes.All(x => x.ElectionId == electionId && x.VoterId == voterId);
+
+                //If no match, create entry with voterId and ElectionId to prevent multiple votes- only ONE per each ElectionId / VoterId combo should be made!
+                if (querytracker.Equals(false))
+                {
+                    votetracker.VoterId = voterId;
+                    votetracker.ElectionId = electionId;
+                    db.Votes.Add(votetracker);
+                    db.SaveChanges();
+                }
+                //If match, procceed without 
+
+
+                var model =
+                    (from c in db.Candidates
+                     join e in db.Elections on c.ElectionId equals ElectionId
+                     select new CandidateViewModel
+                     {
+                         //map data from query to viewmodel
+                         CandidateId = c.CandidateId,
+                         CandidateName = c.CandidateName,
+                         ElectionName = c.ElectionName,
+                         ElectionId = c.ElectionId,
+                         Party = c.Party,
+                         Platform = c.Platform,
+                         Votes = c.Votes
+                     }).Distinct();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("ResultsFirstPlace", "Candidate", new { id = ElectionId });
+
+            }
 
         }
 
-        //TODO: This wont display properly. Check it out.
-        public ActionResult Results([Bind(Prefix="id")] int ElectionId, Candidate candidate)
+        public ActionResult Results()
         {
+            return View();
+        }
+
+        //TODO: This wont display properly. Check it out.
+        public ActionResult ResultsFirstPlace([Bind(Prefix = "id")] int ElectionId, Candidate candidate)
+        {
+            // we will assume that no two candidates can have equal votes. If that occurs, I'll just write something up to flip a digital coin like they do in real elections.
+
+            var SumVotes = db.Candidates
+                .Where(r => r.ElectionId == ElectionId)
+                .Sum(r => r.Votes);
+
             var model = db.Candidates
                 .Where(r => r.ElectionId == ElectionId)
-                .OrderBy(r => r.Votes)
-                .Take(10)
+                .OrderByDescending(r => r.Votes)
                 .Select(r => new CandidateViewModel
                 {
                     CandidateName = r.CandidateName,
                     ElectionName = r.ElectionName,
-                    Votes = r.Votes
+                    Votes = r.Votes,
+                    Party = r.Party,
+                    Platform = r.Platform,
+                    TotalVotes = ( (r.Votes / SumVotes) *100)
+                }).Take(1);
 
-                });
-                  
+            return View(model);
+        }
+
+        public ActionResult ResultsSecondPlace([Bind(Prefix = "id")] int ElectionId, Candidate candidate)
+        {
+            // we will assume that no two candidates can have equal votes. If that occurs, I'll just write something up to flip a digital coin like they do in real elections.
+
+            var SumVotes = db.Candidates
+                .Where(r => r.ElectionId == ElectionId)
+                .Sum(r => r.Votes);
+
+            var model = db.Candidates
+                .Where(r => r.ElectionId == ElectionId)
+                .OrderByDescending(r => r.Votes)
+                .Select(r => new CandidateViewModel
+                {
+                    CandidateName = r.CandidateName,
+                    ElectionName = r.ElectionName,
+                    Votes = r.Votes,
+                    Party = r.Party,
+                    Platform = r.Platform,
+                    TotalVotes = ((r.Votes / SumVotes) * 100)
+                }).Skip(1).Take(1);
+
+            return View(model);
+        }
+
+        public ActionResult ResultsThirdPlace([Bind(Prefix = "id")] int ElectionId, Candidate candidate)
+        {
+            // we will assume that no two candidates can have equal votes. If that occurs, I'll just write something up to flip a digital coin like they do in real elections.
+
+            var SumVotes = db.Candidates
+                .Where(r => r.ElectionId == ElectionId)
+                .Sum(r => r.Votes);
+
+            var model = db.Candidates
+                .Where(r => r.ElectionId == ElectionId)
+                .OrderByDescending(r => r.Votes)
+                .Select(r => new CandidateViewModel
+                {
+                    CandidateName = r.CandidateName,
+                    ElectionName = r.ElectionName,
+                    Votes = r.Votes,
+                    Party = r.Party,
+                    Platform = r.Platform,
+                    TotalVotes = ((r.Votes / SumVotes) * 100)
+                }).Skip(2).Take(1);
 
             return View(model);
         }
@@ -113,7 +174,7 @@ namespace ElectionApplication.Controllers
                     cand.Votes = cand.Votes + 1;
                 }
                 db.SaveChanges();
-                    //get VT entity
+                //get VT entity
                 var HasVote = (from v in db.Votes
                                where v.VoterId == voterId
                                select v);
@@ -179,7 +240,7 @@ namespace ElectionApplication.Controllers
             var voterId = WebSecurity.GetUserId(User.Identity.Name);
 
 
-           var HasLeaned = db.Votes.All(x => x.ElectionId == electionId && x.VoterId == voterId && x.HasLeaned == true);
+            var HasLeaned = db.Votes.All(x => x.ElectionId == electionId && x.VoterId == voterId && x.HasLeaned == true);
 
             if (HasLeaned.Equals(true))
             {
@@ -190,13 +251,13 @@ namespace ElectionApplication.Controllers
                      select v);
                 foreach (Candidate cand in model)
                 {
-                    cand.LeanAmt = cand.LeanAmt-1;
+                    cand.LeanAmt = cand.LeanAmt - 1;
                 }
                 db.SaveChanges();
 
                 var HasVote = (from v in db.Votes
-                     where v.VoterId == voterId
-                     select v);
+                               where v.VoterId == voterId
+                               select v);
                 foreach (VoteTracker vote in HasVote)
                 {
                     vote.HasLeaned = false;
@@ -219,15 +280,15 @@ namespace ElectionApplication.Controllers
         {
             var voterId = WebSecurity.GetUserId(User.Identity.Name);
 
-             var countVote =
-                    (from v in db.Candidates
+            var countVote =
+                   (from v in db.Candidates
                     where
                     v.CandidateId == CandidateId
-                    select new VoteTrackerViewModel 
+                    select new VoteTrackerViewModel
                     {
-                       Votes = v.Votes,
-                       Leans = v.LeanAmt
-                    
+                        Votes = v.Votes,
+                        Leans = v.LeanAmt
+
                     });
 
 
@@ -258,7 +319,7 @@ namespace ElectionApplication.Controllers
             ElectionViewModel election = new ElectionViewModel();
 
             election.ElectionList = new SelectList(db.Elections.ToList(), "ElectionId", "ElectionName");
-          
+
 
             return View(election);
         }

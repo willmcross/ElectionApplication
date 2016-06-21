@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ElectionApplication.ViewModels.CandidateViewModel>
+
+@{
+    ViewBag.Title = "ResultsFirstPlace";
+}
+
+<h2>Results</h2>
+
+
+@foreach (var item in Model) {
+    <h3>@item.CandidateName has won the election with @item.TotalVotes % of the votes!</h3>
+    
+        <div>
+            @Html.DisplayFor(modelItem => item.CandidateName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.ElectionName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Party)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Platform)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Leans)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Votes)
+        </div>
+
+}

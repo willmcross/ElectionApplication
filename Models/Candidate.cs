@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,9 +10,9 @@ namespace ElectionApplication.Models
     {
 
         public int CandidateId { get; set; }
-
+        [Display(Name = "Candidate Name")]
         public string CandidateName { get; set; }
-
+        [Display(Name = "Election Name")]
         public string ElectionName { get; set; }
 
         public int ElectionId { get; set; }
