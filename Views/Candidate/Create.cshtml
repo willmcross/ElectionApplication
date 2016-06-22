@@ -19,13 +19,13 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.CandidateName)
             @Html.ValidationMessageFor(model => model.CandidateName)
-        </div>s
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.ElectionName)
         </div>
         <div class="editor-field">
 
-            @Html.DropDownListFor(m => m.ElectionId , new SelectList(Model.ElectionList, "Value", "Text"), "Select an Election"))
+            @Html.DropDownListFor(m => m.ElectionId , new SelectList(Model.ElectionList, "Value", "Text"), "Select an Election")
         </div>
 
         <div class="editor-label">
