@@ -27,23 +27,20 @@
 
             @Html.DropDownListFor(m => m.ElectionId , new SelectList(Model.ElectionList, "Value", "Text"), "Select an Election")
         </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Party)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Party)
-            @Html.ValidationMessageFor(model => model.Party)
         </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+</fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "/")
+    @Html.ActionLink("Back to List", "Index","Election")
 </div>
 
 @section Scripts {

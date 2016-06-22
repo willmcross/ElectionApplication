@@ -202,7 +202,7 @@ namespace ElectionApplication.Controllers
 
 
             var HasLeaned = db.Votes.All(x => x.ElectionId == electionId && x.VoterId == voterId && x.HasLeaned == false);
-            //This implementation is duplicated but different, as the 
+            //This implementation is duplicated but different, as the HasLeaned query is a switching flag
             if (HasLeaned.Equals(true))
             {
 
@@ -278,7 +278,10 @@ namespace ElectionApplication.Controllers
 
         public ActionResult CountVote([Bind(Prefix = "id")] int CandidateId)
         {
+            //Uneeded. Remove?
             var voterId = WebSecurity.GetUserId(User.Identity.Name);
+
+            //Tally all votes / leans for particular candidate. Used to display vote count in election screen.
 
             var countVote =
                    (from v in db.Candidates
@@ -318,6 +321,8 @@ namespace ElectionApplication.Controllers
 
             ElectionViewModel election = new ElectionViewModel();
 
+
+            // GET used to generate election selectlist. Pain in the ass!
             election.ElectionList = new SelectList(db.Elections.ToList(), "ElectionId", "ElectionName");
 
 
